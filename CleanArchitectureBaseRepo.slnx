@@ -1,1 +1,19 @@
-<Solution />
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="notes.txt" />
+    <File Path="todo.txt" />
+  </Folder>
+  <Folder Name="/src/" />
+  <Folder Name="/src/API/">
+    <Project Path="src/API/Base.API/Base.API.csproj" />
+  </Folder>
+  <Folder Name="/src/core/">
+    <Project Path="src/core/Base.Application/Base.Application.csproj" />
+    <Project Path="src/core/Base.Domain/Base.Domain.csproj" />
+  </Folder>
+  <Folder Name="/src/infrastructure/">
+    <Project Path="src/infrastructure/Base.Infrastructure/Base.Infrastructure.csproj" />
+    <Project Path="src/infrastructure/Base.Persistence/Base.Persistence.csproj" />
+  </Folder>
+  <Folder Name="/test/" />
+</Solution>
