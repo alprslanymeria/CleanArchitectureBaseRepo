@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="FluentValidation" Version="12.1.1" />
+    <PackageReference Include="Mapster" Version="7.4.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -15,6 +16,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Common\CacheKeys\" />
+    <Folder Include="Contracts\Persistence\Repositories\" />
     <Folder Include="Features\" />
   </ItemGroup>
 

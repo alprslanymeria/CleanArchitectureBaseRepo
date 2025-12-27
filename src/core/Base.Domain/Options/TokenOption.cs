@@ -3,8 +3,24 @@
 public class TokenOption
 {
     public const string Key = "TokenOptions";
-    public List<string> Audience { get; set; } = default!;
-    public string Issuer { get; set; } = default!;
+
+    /// <summary>
+    /// WHO CAN USE THE TOKEN
+    /// </summary>
+    public List<string> Audience { get; set; } = null!;
+
+    /// <summary>
+    /// WHO CREATED THE TOKEN
+    /// </summary>
+    public string Issuer { get; set; } = null!;
+
+    /// <summary>
+    /// EXPIRATION TIME OF THE ACCESS TOKEN (IN MINUTES)
+    /// </summary>
     public int AccessTokenExpiration { get; set; }
-    public string SecurityKey { get; set; } = default!;
+
+    /// <summary>
+    /// SECURITY KEY USED TO SIGN THE TOKEN
+    /// </summary>
+    public string SecurityKey { get; set; } = null!;
 }

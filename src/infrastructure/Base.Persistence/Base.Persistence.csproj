@@ -70,10 +70,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\core\Base.Application\Base.Application.csproj" />
+    <ProjectReference Include="..\Base.Shared\Base.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Configurations\" />
+    <Folder Include="Repositories\" />
   </ItemGroup>
 
 </Project>

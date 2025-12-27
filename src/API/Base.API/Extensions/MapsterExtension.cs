@@ -1,6 +1,6 @@
-﻿using Mapster;
-using MapsterMapper;
 using System.Reflection;
+using Mapster;
+using MapsterMapper;
 
 namespace Base.API.Extensions;
 

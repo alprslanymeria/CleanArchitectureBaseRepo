@@ -12,8 +12,12 @@
     <Project Path="src/core/Base.Domain/Base.Domain.csproj" />
   </Folder>
   <Folder Name="/src/infrastructure/">
-    <Project Path="src/infrastructure/Base.Infrastructure/Base.Infrastructure.csproj" />
+    <Project Path="src/infrastructure/Base.Caching/Base.Caching.csproj" Id="908d0a04-f671-4943-97ed-b850d157cb2c" />
+    <Project Path="src/infrastructure/Base.Observability/Base.Observability.csproj" Id="66265990-0428-434e-aa54-a699d548a7e3" />
     <Project Path="src/infrastructure/Base.Persistence/Base.Persistence.csproj" />
+    <Project Path="src/infrastructure/Base.Security/Base.Security.csproj" Id="c8d2cfe2-b7a1-46a6-95b5-78c38d968dd7" />
+    <Project Path="src/infrastructure/Base.Shared/Base.Shared.csproj" Id="3dd011a2-7bf2-4a55-8b63-6745c69c3e14" />
+    <Project Path="src/infrastructure/Base.Storage/Base.Storage.csproj" Id="77bb57a4-0950-46bd-ae92-8d7b4c290391" />
   </Folder>
   <Folder Name="/test/" />
 </Solution>

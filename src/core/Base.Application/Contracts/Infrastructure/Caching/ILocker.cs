@@ -15,7 +15,7 @@ public interface ILocker
     /// </summary>
     Task CancelTaskAsync(string key, TimeSpan expirationTime);
     /// <summary>
-    /// CHECKS IF A TASKI IS CURRENTLY RUNNING FOR A GIVEN KEY
+    /// CHECKS IF A TASK IS CURRENTLY RUNNING FOR A GIVEN KEY
     /// </summary>
     Task<bool> IsTaskRunningAsync(string key);
 }

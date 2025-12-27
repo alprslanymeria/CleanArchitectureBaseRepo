@@ -1,0 +1,2 @@
+﻿- Github içeriği düznelenecek. Ayrıca bu projeden türetilen projeler için proje isimlerinde değişiklik yapabilmesi
+sağlanacak. Mesela Base.Domain yerine App.Domain gibi

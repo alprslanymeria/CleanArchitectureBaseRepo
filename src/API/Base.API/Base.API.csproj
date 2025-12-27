@@ -22,8 +22,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\core\Base.Application\Base.Application.csproj" />
-    <ProjectReference Include="..\..\infrastructure\Base.Infrastructure\Base.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\infrastructure\Base.Caching\Base.Caching.csproj" />
+    <ProjectReference Include="..\..\infrastructure\Base.Observability\Base.Observability.csproj" />
     <ProjectReference Include="..\..\infrastructure\Base.Persistence\Base.Persistence.csproj" />
+    <ProjectReference Include="..\..\infrastructure\Base.Security\Base.Security.csproj" />
+    <ProjectReference Include="..\..\infrastructure\Base.Storage\Base.Storage.csproj" />
   </ItemGroup>
 
 </Project>
