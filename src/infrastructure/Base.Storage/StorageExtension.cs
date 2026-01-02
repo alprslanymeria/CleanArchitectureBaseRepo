@@ -1,14 +1,13 @@
 ﻿using Base.Application.Contracts.Infrastructure.Storage;
-using Base.Storage;
 using Base.Storage.aws;
 using Base.Storage.google;
 using Base.Storage.local;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace Base.API.Extensions;
-
+namespace Base.Storage;
 public static class StorageExtension
 {
-    public static IServiceCollection AddStorage(this IServiceCollection services)
+    public static IServiceCollection AddStorageServicesExt(this IServiceCollection services)
     {
 
         // STORAGE PROVIDER CLIENT FACTORIES

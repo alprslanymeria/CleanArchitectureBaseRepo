@@ -6,7 +6,7 @@ namespace Base.API.Extensions;
 
 public static class CustomTokenAuth
 {
-    public static IServiceCollection AddCustomTokenAuth(this IServiceCollection services, IConfiguration configuration )
+    public static IServiceCollection AddCustomTokenAuthExt(this IServiceCollection services, IConfiguration configuration )
     {
         services.AddAuthentication(options =>
         {

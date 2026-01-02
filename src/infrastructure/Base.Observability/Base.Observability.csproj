@@ -10,6 +10,7 @@
     <PackageReference Include="OpenTelemetry" Version="1.14.0" />
     <PackageReference Include="OpenTelemetry.Exporter.Console" Version="1.14.0" />
     <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.14.0" />
+    <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.14.0" />
     <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.14.0" />
     <PackageReference Include="OpenTelemetry.Instrumentation.EntityFrameworkCore" Version="1.14.0-beta.2" />
     <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.14.0" />
@@ -18,7 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\core\Base.Application\Base.Application.csproj" />
-    <ProjectReference Include="..\Base.Shared\Base.Shared.csproj" />
+    <ProjectReference Include="..\..\Shared\Base.Shared\Base.Shared.csproj" />
   </ItemGroup>
 
 </Project>

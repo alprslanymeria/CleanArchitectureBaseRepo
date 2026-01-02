@@ -5,7 +5,7 @@ namespace Base.API.Extensions;
 
 public static class OptionsExtension
 {
-    public static IServiceCollection AddOptionsPattern(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddOptionsPatternExt(this IServiceCollection services, IConfiguration configuration)
     {
         // OPTIONS PATTERN
         services.Configure<DistributedCacheConfig>(configuration.GetSection(nameof(DistributedCacheConfig)));

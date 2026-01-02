@@ -12,7 +12,7 @@ public class GenericRepository<TEntity, TId>(AppDbContext context) : IGenericRep
 
     public IQueryable<TEntity> GetAll() => _dbSet.AsQueryable().AsNoTracking();
 
-    public async ValueTask<TEntity?> GetByIdAsync(int id)
+    public async ValueTask<TEntity?> GetByIdAsync(TId id)
     {
         var entity = await _dbSet.FindAsync(id);
 

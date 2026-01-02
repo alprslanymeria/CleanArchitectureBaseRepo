@@ -13,7 +13,7 @@ public interface IGenericRepository<TEntity, TId> where TEntity : BaseEntity<TId
     /// <summary>
     /// ASYNCHRONOUSLY RETRIEVES AN ENTITY BY ITS UNIQUE IDENTIFIER.
     /// </summary>
-    ValueTask<TEntity?> GetByIdAsync(int id);
+    ValueTask<TEntity?> GetByIdAsync(TId id);
 
     /// <summary>
     /// ASYNCHRONOUSLY CREATES A NEW ENTITY IN THE UNDERLYING DATA STORE.

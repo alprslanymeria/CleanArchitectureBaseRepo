@@ -1,17 +1,18 @@
-using System.Reflection;
+﻿using System.Reflection;
 using Mapster;
 using MapsterMapper;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace Base.API.Extensions;
+namespace Base.Integration.Mapping;
 
-public static class MapsterExtension
+public static class MappingExtension
 {
-    public static IServiceCollection AddMapster(this IServiceCollection services, Action<TypeAdapterConfig>? configure = null, params Assembly[] assembliesToScan)
+    public static IServiceCollection AddMappingServicesExt(this IServiceCollection services, Action<TypeAdapterConfig>? configure = null, params Assembly[] assembliesToScan)
     {
         // CHECK SERVICES
         ArgumentNullException.ThrowIfNull(services);
 
-        // CONFIGURE MAPSTER
+        // CONFIGURE
         var config = new TypeAdapterConfig();
         config.Default.NameMatchingStrategy(NameMatchingStrategy.Flexible);
         config.Default.IgnoreNullValues(true);
@@ -19,7 +20,7 @@ public static class MapsterExtension
         // FIND FILES FROM ASSEMBLIES
         var toScan = (assembliesToScan is { Length: > 0 })
             ? assembliesToScan
-            : [typeof(MapsterExtension).Assembly];
+            : [typeof(MappingExtension).Assembly];
 
 
         // SCAN FILES
@@ -34,7 +35,7 @@ public static class MapsterExtension
         // ALLOW CALLER TO FURTHER TWEAK THE CONFIG
         configure?.Invoke(config);
 
-        //// REGISTER CONFIG AND MAPPER IN DI
+        // REGISTER CONFIG AND MAPPER IN DI
         services.AddSingleton(config);
         services.AddScoped<IMapper, ServiceMapper>();
 

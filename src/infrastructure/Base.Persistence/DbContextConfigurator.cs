@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace App.Persistence;
+namespace Base.Persistence;
 
 public class DbContextConfigurator
 {
