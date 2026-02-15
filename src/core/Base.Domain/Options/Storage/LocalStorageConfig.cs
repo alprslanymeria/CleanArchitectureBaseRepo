@@ -21,14 +21,4 @@ public class LocalStorageConfig
     /// WHETHER TO CREATE DIRECTORIES IF THEY DON'T EXIST
     /// </summary>
     public bool CreateDirectoriesIfNotExist { get; set; } = true;
-
-    /// <summary>
-    /// MAXIMUM FILE SIZE IN BYTES (0 = UNLIMITED)
-    /// </summary>
-    public long MaxFileSizeBytes { get; set; } = 0;
-
-    /// <summary>
-    /// ALLOWED FILE EXTENSIONS (EMPTY = ALL ALLOWED)   
-    /// </summary>
-    public string[] AllowedExtensions { get; set; } = [];
 }

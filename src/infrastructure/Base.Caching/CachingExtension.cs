@@ -14,7 +14,7 @@ public static class CachingExtension
     public static IServiceCollection AddCachingServicesExt(this IServiceCollection services, IConfiguration configuration)
 
     {
-        var config = configuration.GetRequiredSection("DistributedCacheConfig").Get<DistributedCacheConfig>();
+        var config = configuration.GetRequiredSection("DistributedCacheConfig").Get<RedisCacheConfig>();
 
         // REDIS CONNECTION MULTIPLEXER
         services.AddSingleton<IConnectionMultiplexer>(sp =>

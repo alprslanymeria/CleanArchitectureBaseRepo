@@ -10,7 +10,7 @@ namespace Base.Caching.Redis;
 public class RedisCacheManager(
 
     IOptions<CacheConfig> cacheConfig,
-    IOptions<DistributedCacheConfig> distributedCacheConfig,
+    IOptions<RedisCacheConfig> distributedCacheConfig,
     ICacheKeyManager localKeyManager,
     IDistributedCache distributedCache,
     ICacheKeyStore<object> store,
@@ -22,7 +22,7 @@ public class RedisCacheManager(
 
     // FIELDS
     protected readonly IRedisConnectionWrapper ConnectionWrapper = redisConnectionWrapper;
-    protected readonly DistributedCacheConfig DistributedCacheConfig = distributedCacheConfig.Value;
+    protected readonly RedisCacheConfig DistributedCacheConfig = distributedCacheConfig.Value;
 
     #region UTILITIES
     protected virtual async Task<IEnumerable<RedisKey>> GetKeysAsync(EndPoint endPoint, string prefix = null)

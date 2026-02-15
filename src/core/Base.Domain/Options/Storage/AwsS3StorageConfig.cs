@@ -1,4 +1,4 @@
-﻿namespace Base.Domain.Options.Storage;
+﻿namespace App.Domain.Options.Storage;
 
 /// <summary>
 /// CONFIGURATION FOR AWS S3 STORAGE
@@ -28,6 +28,11 @@ public class AwsS3StorageConfig
     public string BucketName { get; set; } = string.Empty;
 
     /// <summary>
+    /// CUSTOM SERVICE URL (FOR S3-COMPATIBLE SERVICES LIKE MINIO)
+    /// </summary>
+    public string? ServiceUrl { get; set; }
+
+    /// <summary>
     /// BASE URL FOR PUBLIC ACCESS (OPTIONAL, USES S3 URL IF EMPTY)
     /// </summary>
     public string? BaseUrl { get; set; }
@@ -41,9 +46,4 @@ public class AwsS3StorageConfig
     /// WHETHER TO USE PATH-STYLE URLS (FOR S3-COMPATIBLE SERVICES)
     /// </summary>
     public bool UsePathStyleUrls { get; set; } = false;
-
-    /// <summary>
-    /// CUSTOM SERVICE URL (FOR S3-COMPATIBLE SERVICES LIKE MINIO)
-    /// </summary>
-    public string? ServiceUrl { get; set; }
 }

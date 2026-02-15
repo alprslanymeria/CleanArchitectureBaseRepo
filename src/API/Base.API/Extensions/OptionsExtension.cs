@@ -8,7 +8,7 @@ public static class OptionsExtension
     public static IServiceCollection AddOptionsPatternExt(this IServiceCollection services, IConfiguration configuration)
     {
         // OPTIONS PATTERN
-        services.Configure<DistributedCacheConfig>(configuration.GetSection(nameof(DistributedCacheConfig)));
+        services.Configure<RedisCacheConfig>(configuration.GetSection(nameof(RedisCacheConfig)));
         services.Configure<CacheConfig>(configuration.GetSection(nameof(CacheConfig)));
         services.Configure<StorageConfig>(configuration.GetSection(StorageConfig.Key));
         services.Configure<LocalStorageConfig>(configuration.GetSection(nameof(LocalStorageConfig)));

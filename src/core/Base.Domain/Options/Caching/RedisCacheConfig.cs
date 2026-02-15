@@ -1,14 +1,8 @@
 ﻿namespace Base.Domain.Options.Caching;
 
-public class DistributedCacheConfig
+public class RedisCacheConfig
 {
-
-    public const string Key = "DistributedCacheConfig";
-
-    /// <summary>
-    /// WHETHER TO ENABLE DISTRIBUTED CACHING
-    /// </summary>
-    public bool Enabled { get; set; }
+    public const string Key = "RedisCache";
 
     /// <summary>
     /// CONNECTION STRING FOR THE DISTRIBUTED CACHE
