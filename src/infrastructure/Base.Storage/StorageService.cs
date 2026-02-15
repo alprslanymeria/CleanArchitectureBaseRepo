@@ -9,7 +9,7 @@ namespace Base.Storage;
 /// </summary>
 public class StorageService(
 
-    IStorageProviderFactory providerFactory,
+    IStorageProvider provider,
     IOptions<StorageConfig> config
 
     ) : IStorageService
@@ -22,7 +22,7 @@ public class StorageService(
 
     // IMPLEMENTATION OF IStorageService
     public StorageType CurrentStorageType => _config.StorageType;
-    public IStorageProvider Provider { get; } = providerFactory.GetDefaultProvider();
+    public IStorageProvider Provider { get; } = provider;
 
     public string ProviderName => Provider.ProviderName;
 

@@ -1,9 +1,9 @@
-using System.Net;
 using Base.Application.Contracts.Infrastructure.Storage;
 using Base.Domain.Options.Storage;
 using Google;
 using Google.Cloud.Storage.V1;
 using Microsoft.Extensions.Options;
+using System.Net;
 
 namespace Base.Storage.google;
 
@@ -14,7 +14,7 @@ public class GoogleCloudStorageProvider(
 
     IGoogleCloudStorageClientFactory clientFactory,
     IOptions<GoogleCloudStorageConfig> config
-    
+
     ) : IStorageProvider
 {
     // FIELDS
@@ -27,7 +27,7 @@ public class GoogleCloudStorageProvider(
     /// <summary>
     /// CREATE FILE NAME AND PATH
     /// </summary>
-    private static string BuildObjectName(string fileName, string? folderPath) 
+    private static string BuildObjectName(string fileName, string? folderPath)
         => string.IsNullOrEmpty(folderPath) ? fileName : $"{folderPath.Trim('/')}/{fileName}";
     #endregion
 
@@ -38,7 +38,7 @@ public class GoogleCloudStorageProvider(
     {
         var objectName = BuildObjectName(fileName, folderPath);
 
-        var uploadObjectOptions = new UploadObjectOptions { PredefinedAcl = PredefinedObjectAcl.PublicRead };
+        var uploadObjectOptions = new UploadObjectOptions { };
 
         var uploadedObject = await _storageClient.UploadObjectAsync(
             _config.BucketName,
@@ -48,9 +48,6 @@ public class GoogleCloudStorageProvider(
             uploadObjectOptions,
             cancellationToken);
 
-        if (string.IsNullOrEmpty(_config.DefaultCacheControl)) return GetPublicUrl(objectName);
-
-        uploadedObject.CacheControl = _config.DefaultCacheControl;
         await _storageClient.UpdateObjectAsync(uploadedObject, cancellationToken: cancellationToken);
 
         return GetPublicUrl(objectName);
@@ -92,14 +89,7 @@ public class GoogleCloudStorageProvider(
         }
     }
 
-    public string GetPublicUrl(string filePath)
-    {
-        return string.IsNullOrEmpty(_config.BaseUrl) switch
-        {
-            false => $"{_config.BaseUrl?.TrimEnd('/')}/{filePath}",
-            _ => $"https://storage.googleapis.com/{_config.BucketName}/{filePath}"
-        };
-    }
+    public string GetPublicUrl(string filePath) => $"https://storage.googleapis.com/{_config.BucketName}/{filePath}";
 
     public async Task<string> GetSignedUrlAsync(string filePath, int expirationMinutes = 60, CancellationToken cancellationToken = default)
     {

@@ -1,4 +1,4 @@
-﻿namespace App.Domain.Options.Storage;
+﻿namespace Base.Domain.Options.Storage;
 
 /// <summary>
 /// CONFIGURATION FOR AWS S3 STORAGE

@@ -1,7 +1,5 @@
-using Base.Domain.Options.Storage;
 using Google.Apis.Auth.OAuth2;
 using Google.Cloud.Storage.V1;
-using Microsoft.Extensions.Options;
 
 namespace Base.Storage.google;
 
@@ -11,14 +9,13 @@ namespace Base.Storage.google;
 public class GoogleCloudStorageClientFactory : IGoogleCloudStorageClientFactory
 {
     // FIELDS
-    private readonly GoogleCloudStorageConfig _config;
     private readonly GoogleCredential _credential;
 
-    public GoogleCloudStorageClientFactory(IOptions<GoogleCloudStorageConfig> config)
+    public GoogleCloudStorageClientFactory()
     {
-        _config = config.Value;
-        _credential = GoogleCredential.FromFile(_config.CredentialFilePath);
+        _credential = GoogleCredential.GetApplicationDefault();
     }
+
 
     // IMPLEMENTATION OF IGoogleCloudStorageClientFactory
     public StorageClient CreateStorageClient()
