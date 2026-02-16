@@ -14,8 +14,5 @@ public class ClearCacheTask(
     protected readonly IStaticCacheManager StaticCacheManager = staticCacheManager;
 
     // IMPLEMENTATION OF IScheduleTask
-    public virtual async Task ExecuteAsync()
-    {
-        await StaticCacheManager.ClearAsync();
-    }
+    public virtual async Task ExecuteAsync() => await StaticCacheManager.ClearAsync();
 }

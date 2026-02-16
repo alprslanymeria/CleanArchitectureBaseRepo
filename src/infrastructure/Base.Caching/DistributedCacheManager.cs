@@ -1,16 +1,16 @@
-﻿using System.Collections.Concurrent;
-using System.Text.Json;
-using Base.Application.Contracts.Infrastructure.Caching;
+﻿using Base.Application.Contracts.Infrastructure.Caching;
 using Base.Caching.CacheKey;
 using Base.Domain.Options.Caching;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
+using System.Collections.Concurrent;
+using System.Text.Json;
 
 namespace Base.Caching;
 
 
 // singleton ICacheKeyManager (localKeyManager)
-    // transient ICacheKeyStore , scoped olarak çalışır
+// transient ICacheKeyStore , scoped olarak çalisir
 
 // singleton IDistributedCache (distributedCache)
 // transient ICacheKeyStore (keystore)
@@ -22,7 +22,7 @@ public abstract class DistributedCacheManager(
     ICacheKeyManager localKeyManager,
     IDistributedCache distributedCache,
     ICacheKeyStore<object> keystore
-    
+
     ) : CacheKeyService(cacheConfig), IStaticCacheManager, ICacheKeyFactoryRemover
 {
     // FIELDS
@@ -48,7 +48,7 @@ public abstract class DistributedCacheManager(
     {
         var keyPrefix = PrepareKeyPrefix(prefix, prefixParameters);
 
-               Keystore.Prune(keyPrefix, out _);
+        Keystore.Prune(keyPrefix, out _);
         return LocalKeyManager.RemoveByPrefix(keyPrefix);
     }
 

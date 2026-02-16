@@ -1,7 +1,8 @@
-﻿using System.Net;
+﻿using Base.Caching.Redis;
 using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.Extensions.Options;
 using StackExchange.Redis;
+using System.Net;
 
 namespace Base.Caching.Redis;
 
@@ -9,7 +10,7 @@ public class RedisConnectionWrapper(
 
     IOptions<RedisCacheOptions> optionsAccessor,
     IConnectionMultiplexer connection
-    
+
     ) : IRedisConnectionWrapper
 {
     // FIELDS
@@ -27,10 +28,9 @@ public class RedisConnectionWrapper(
 
         if (Options.ConnectionMultiplexerFactory is null)
         {
-            if (Options.ConfigurationOptions is not null)
-                connection = await ConnectionMultiplexer.ConnectAsync(Options.ConfigurationOptions);
-            else
-                connection = await ConnectionMultiplexer.ConnectAsync(Options.Configuration);
+            connection = Options.ConfigurationOptions is not null
+                ? await ConnectionMultiplexer.ConnectAsync(Options.ConfigurationOptions)
+                : await ConnectionMultiplexer.ConnectAsync(Options.Configuration);
         }
         else
         {
@@ -38,7 +38,9 @@ public class RedisConnectionWrapper(
         }
 
         if (Options.ProfilingSession != null)
+        {
             connection.RegisterProfiler(Options.ProfilingSession);
+        }
 
         return connection;
     }
@@ -47,15 +49,14 @@ public class RedisConnectionWrapper(
     /// </summary>
     protected virtual IConnectionMultiplexer Connect()
     {
-        IConnectionMultiplexer connection;
-
-        if (Options.ConnectionMultiplexerFactory is null)
-            connection = Options.ConfigurationOptions is not null ? ConnectionMultiplexer.Connect(Options.ConfigurationOptions) : ConnectionMultiplexer.Connect(Options.Configuration);
-        else
-            connection = Options.ConnectionMultiplexerFactory().GetAwaiter().GetResult();
+        var connection = Options.ConnectionMultiplexerFactory is null
+            ? Options.ConfigurationOptions is not null ? ConnectionMultiplexer.Connect(Options.ConfigurationOptions) : ConnectionMultiplexer.Connect(Options.Configuration)
+            : Options.ConnectionMultiplexerFactory().GetAwaiter().GetResult();
 
         if (Options.ProfilingSession != null)
+        {
             connection.RegisterProfiler(Options.ProfilingSession);
+        }
 
         return connection;
     }
@@ -71,7 +72,9 @@ public class RedisConnectionWrapper(
         try
         {
             if (Connection?.IsConnected == true)
+            {
                 return Connection;
+            }
 
             //Connection disconnected. Disposing connection...
             Connection?.Dispose();
@@ -132,39 +135,19 @@ public class RedisConnectionWrapper(
         }));
     }
 
-    public virtual IDatabase GetDatabase()
-    {
-        return GetConnection().GetDatabase();
-    }
+    public virtual IDatabase GetDatabase() => GetConnection().GetDatabase();
 
-    public virtual async Task<IDatabase> GetDatabaseAsync()
-    {
-        return (await GetConnectionAsync()).GetDatabase();
-    }
+    public virtual async Task<IDatabase> GetDatabaseAsync() => (await GetConnectionAsync()).GetDatabase();
 
-    public virtual async Task<EndPoint[]> GetEndPointsAsync()
-    {
-        return (await GetConnectionAsync()).GetEndPoints();
-    }
+    public virtual async Task<EndPoint[]> GetEndPointsAsync() => (await GetConnectionAsync()).GetEndPoints();
 
-    public virtual async Task<IServer> GetServerAsync(EndPoint endPoint)
-    {
-        return (await GetConnectionAsync()).GetServer(endPoint);
-    }
+    public virtual async Task<IServer> GetServerAsync(EndPoint endPoint) => (await GetConnectionAsync()).GetServer(endPoint);
 
-    public virtual ISubscriber GetSubscriber()
-    {
-        return GetConnection().GetSubscriber();
-    }
+    public virtual ISubscriber GetSubscriber() => GetConnection().GetSubscriber();
 
-    public virtual async Task<ISubscriber> GetSubscriberAsync()
-    {
-        return (await GetConnectionAsync()).GetSubscriber();
-    }
+    public virtual async Task<ISubscriber> GetSubscriberAsync() => (await GetConnectionAsync()).GetSubscriber();
 
-    public virtual void Dispose()
-    {
+    public virtual void Dispose() =>
         //dispose ConnectionMultiplexer
         Connection?.Dispose();
-    }
 }
