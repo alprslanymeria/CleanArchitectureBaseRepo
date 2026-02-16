@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using System.Text.Json.Serialization;
 
-namespace App.Application.Common;
+namespace Base.Application.Common;
 
 public class ServiceResult<T>
 {

@@ -1,4 +1,6 @@
-﻿namespace Base.Application.Contracts.Services;
+﻿using Base.Application.Contracts.Infrastructure.Files;
+
+namespace Base.Application.Contracts.Services;
 
 /// <summary>
 /// HELPER SERVICE FOR COMMON FILE STORAGE OPERATIONS.

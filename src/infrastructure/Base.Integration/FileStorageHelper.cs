@@ -1,4 +1,6 @@
-﻿using Base.Application.Contracts.Infrastructure.Storage;
+﻿using Base.Application.Contracts.Infrastructure.Files;
+using Base.Application.Contracts.Infrastructure.Storage;
+using Base.Application.Contracts.Services;
 using Microsoft.Extensions.Logging;
 
 namespace Base.Integration;

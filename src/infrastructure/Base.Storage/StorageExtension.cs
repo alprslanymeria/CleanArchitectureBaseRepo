@@ -1,9 +1,9 @@
-﻿using App.Domain.Options.Storage;
-using Base.Application.Contracts.Infrastructure.Storage;
+﻿using Base.Application.Contracts.Infrastructure.Storage;
 using Base.Domain.Options.Storage;
 using Base.Storage.aws;
 using Base.Storage.google;
 using Base.Storage.local;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Base.Storage;
