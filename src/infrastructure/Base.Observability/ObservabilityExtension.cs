@@ -14,11 +14,17 @@ public static class ObservabilityExtension
 {
     public static IServiceCollection AddOpenTelemetryServicesExt(this IServiceCollection services, IConfiguration configuration)
     {
-        // GET OpenTelemetry CONSTANTS FROM APP SETTINGS
-        var openTelemetryConstants = configuration.GetSection(OpenTelemetryConstants.Key).Get<OpenTelemetryConstants>();
+        // GET OTEL CONSTANTS FROM APP SETTINGS
+        var openTelemetryConstants = configuration.GetRequiredSection(OpenTelemetryConfig.Key).Get<OpenTelemetryConfig>();
+
+        // CHECK IF OTEL IS ENABLED
+        if (openTelemetryConstants is null || !openTelemetryConstants.Enabled)
+        {
+            return services;
+        }
 
         // SET ACTIVITY SOURCE
-        ActivitySourceProvider.Source = new System.Diagnostics.ActivitySource(openTelemetryConstants!.ActivitySourceName);
+        ActivitySourceProvider.Source = new System.Diagnostics.ActivitySource(openTelemetryConstants.ActivitySourceName);
 
         services.AddOpenTelemetry()
             .WithTracing(configure =>
@@ -100,21 +106,25 @@ public static class ObservabilityExtension
                 });
 
 
-                // TRACE EXPORTERS
-                configure.AddConsoleExporter();
-                configure.AddOtlpExporter();
+                // TRACE EXPORTERS FROM APPSETTINGS
+                ConfigureTraceExporters(configure, openTelemetryConstants);
 
-            }).WithMetrics(options =>
+            })
+            .WithMetrics(options =>
             {
                 options.AddMeter("metric.meter.api");
                 options.ConfigureResource(resource =>
                 {
-                    resource.AddService("Metric.API", serviceVersion: "1.0.0");
+                    resource.AddService(openTelemetryConstants.ServiceName, serviceVersion: openTelemetryConstants.ServiceVersion);
                 });
 
-                // METRICS EXPORTERS
-                options.AddConsoleExporter();
-                options.AddOtlpExporter();
+                // BUILT-IN METRIC INSTRUMENTATION
+                options.AddAspNetCoreInstrumentation();
+                options.AddHttpClientInstrumentation();
+                options.AddRuntimeInstrumentation();
+
+                // METRICS EXPORTERS FROM APPSETTINGS
+                ConfigureMetricsExporters(options, openTelemetryConstants);
             });
 
 
@@ -123,23 +133,93 @@ public static class ObservabilityExtension
 
     public static void AddOpenTelemetryLogExt(this WebApplicationBuilder builder)
     {
-        // GET OpenTelemetry SETTINGS FROM CONFIGURATION
-        var config = builder.Configuration.GetSection("OpenTelemetry");
-        var serviceName = config.GetValue<string>("ServiceName");
-        var serviceVersion = config.GetValue<string>("ServiceVersion");
+        // GET OTEL CONSTANTS FROM APP SETTINGS
+        var openTelemetryConstants = builder.Configuration.GetRequiredSection(OpenTelemetryConfig.Key).Get<OpenTelemetryConfig>();
+
+        // CHECK IF OTEL IS ENABLED
+        if (openTelemetryConstants is null || !openTelemetryConstants.Enabled)
+        {
+            return;
+        }
 
         builder.Logging.AddOpenTelemetry(options =>
         {
             // FILL RESOURCE BUILDER WITH SERVICE NAME AND VERSION
             var resourceBuilder = ResourceBuilder
                 .CreateDefault()
-                .AddService(serviceName ?? "UnknownService", serviceVersion: serviceVersion);
+                .AddService(openTelemetryConstants.ServiceName ?? "UnknownService", serviceVersion: openTelemetryConstants.ServiceVersion);
 
             // SET RESOURCE BUILDER TO CONFIGURATION
             options.SetResourceBuilder(resourceBuilder);
 
-            // ADD OTLP EXPORTER TO SEND LOGS TO OTEL COLLECTOR
-            options.AddOtlpExporter();
+            // LOG EXPORTERS FROM APPSETTINGS
+            ConfigureLogExporters(options, openTelemetryConstants);
         });
+    }
+
+    private static void ConfigureLogExporters(OpenTelemetryLoggerOptions options, OpenTelemetryConfig constants)
+    {
+        if (constants.LogExporters is null || constants.LogExporters.Length == 0)
+        {
+            return;
+        }
+
+        foreach (var exporter in constants.LogExporters)
+        {
+            switch (exporter.ToLowerInvariant())
+            {
+                case "console":
+                    options.AddConsoleExporter();
+                    break;
+
+                case "elasticsearch":
+                    options.AddOtlpExporter();
+                    break;
+            }
+        }
+    }
+
+    private static void ConfigureTraceExporters(TracerProviderBuilder builder, OpenTelemetryConfig constants)
+    {
+        if (constants.TraceExporters is null || constants.TraceExporters.Length == 0)
+        {
+            return;
+        }
+
+        foreach (var exporter in constants.TraceExporters)
+        {
+            switch (exporter.ToLowerInvariant())
+            {
+                case "console":
+                    builder.AddConsoleExporter();
+                    break;
+
+                case "jaeger":
+                    builder.AddOtlpExporter();
+                    break;
+            }
+        }
+    }
+
+    private static void ConfigureMetricsExporters(MeterProviderBuilder builder, OpenTelemetryConfig constants)
+    {
+        if (constants.MetricsExporters is null || constants.MetricsExporters.Length == 0)
+        {
+            return;
+        }
+
+        foreach (var exporter in constants.MetricsExporters)
+        {
+            switch (exporter.ToLowerInvariant())
+            {
+                case "console":
+                    builder.AddConsoleExporter();
+                    break;
+
+                case "prometheus":
+                    builder.AddOtlpExporter();
+                    break;
+            }
+        }
     }
 }
