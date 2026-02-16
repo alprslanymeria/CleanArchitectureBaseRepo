@@ -17,19 +17,3 @@ public interface IStorageService : IStorageProvider
     /// </summary>
     IStorageProvider Provider { get; }
 }
-
-/// <summary>
-/// FACTORY INTERFACE FOR CREATING STORAGE PROVIDERS
-/// </summary>
-public interface IStorageProviderFactory
-{
-    /// <summary>
-    /// CREATES A STORAGE PROVIDER BASED ON THE SPECIFIED TYPE
-    /// </summary>
-    IStorageProvider CreateProvider(StorageType storageType);
-
-    /// <summary>
-    /// GETS THE DEFAULT STORAGE PROVIDER BASED ON CONFIGURATION
-    /// </summary>
-    IStorageProvider GetDefaultProvider();
-}
